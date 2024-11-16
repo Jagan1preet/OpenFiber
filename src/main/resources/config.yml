@@ -1,0 +1,10 @@
+credentials:
+#url to navigate to website login page
+url: "https://collaudoofcd.gisfo.com/gisfoweb/login.html"
+#username for login to website
+username: "j.preet"
+#password for login to website
+password: "preet"
+#admin project to access the list of projects
+adminproject: "https://collaudoofcd.gisfo.com/gisfoweb/project/lista_tratte_admin.html?group=admin"
+projectpage: "https://collaudoofcd.gisfo.com/gisfoweb/project/gestione_progetti.html?group=admin"
