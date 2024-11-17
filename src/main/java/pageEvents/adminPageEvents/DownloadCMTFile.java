@@ -60,6 +60,7 @@ public class DownloadCMTFile {
 
         ElementFetch elementFetch = new ElementFetch();
         driver.switchTo().newWindow(WindowType.TAB);
+        logger.info("Navigate to Tratte Progetti Admin");
         driver.get(adminproject);
 
 
@@ -103,34 +104,34 @@ public class DownloadCMTFile {
         WebDriverWait wait3 = new WebDriverWait(driver, Duration.ofSeconds(20));
         wait3.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains (text(),'Gestione Elaborati')]")));
 
-
-       WebElement document = elementFetch.getWebElement("XPATH", AdminProjectElements.documentManagement);
-       document.click();
-
-       WebElement printmanagement = elementFetch.getWebElement("XPATH", AdminProjectElements.printManagement);
-       printmanagement.click();
-
-       WebElement cmt = elementFetch.getWebElement("XPATH", AdminProjectElements.CMT);
-       cmt.click();
-       WebDriverWait waait = new WebDriverWait(driver, Duration.ofSeconds(30));
-       waait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='extract']")));
-
-
-       WebElement extract = elementFetch.getWebElement("XPATH", AdminProjectElements.extract);
-       extract.click();
-
-       WebDriverWait waait1 = new WebDriverWait(driver, Duration.ofSeconds(30));
-       waait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='dojoxFloatingCloseIcon']")));
-
-       WebElement close = elementFetch.getWebElement("XPATH", AdminProjectElements.close);
-       close.click();
-
-       WebDriverWait waait2 = new WebDriverWait(driver, Duration.ofSeconds(30));
-       waait2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Fibre e giunzioni')]")));
-
-       WebElement fiber = elementFetch.getWebElement("XPATH", AdminProjectElements.fiber);
-       Actions actions = new Actions(driver);
-       actions.moveToElement(fiber).click().perform();
+//
+//       WebElement document = elementFetch.getWebElement("XPATH", AdminProjectElements.documentManagement);
+//       document.click();
+//
+//       WebElement printmanagement = elementFetch.getWebElement("XPATH", AdminProjectElements.printManagement);
+//       printmanagement.click();
+//
+//       WebElement cmt = elementFetch.getWebElement("XPATH", AdminProjectElements.CMT);
+//       cmt.click();
+//       WebDriverWait waait = new WebDriverWait(driver, Duration.ofSeconds(30));
+//       waait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='extract']")));
+//
+//
+//       WebElement extract = elementFetch.getWebElement("XPATH", AdminProjectElements.extract);
+//       extract.click();
+//
+//       WebDriverWait waait1 = new WebDriverWait(driver, Duration.ofSeconds(30));
+//       waait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='dojoxFloatingCloseIcon']")));
+//
+//       WebElement close = elementFetch.getWebElement("XPATH", AdminProjectElements.close);
+//       close.click();
+//
+//       WebDriverWait waait2 = new WebDriverWait(driver, Duration.ofSeconds(30));
+//       waait2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Fibre e giunzioni')]")));
+//
+//       WebElement fiber = elementFetch.getWebElement("XPATH", AdminProjectElements.fiber);
+//       Actions actions = new Actions(driver);
+//       actions.moveToElement(fiber).click().perform();
 
 
 
