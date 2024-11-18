@@ -13,7 +13,7 @@ public class DataCompare extends LogIn {
     DownloadCMTFile compare = new DownloadCMTFile();
     ExcelComparator datafile = new ExcelComparator();
 
-
+    // Test case for Downloading CMT file and compare it with old file
     @Test(description = "Verify user able to download and compare CMT file ")
     public void downloadAndCompareDataFile() throws InterruptedException, IOException {
         loginPage.login();

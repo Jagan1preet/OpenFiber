@@ -37,8 +37,7 @@ public class AdminProjectEvents {
     private static String adminproject;
 
 
-
-//  Read the data from the config file
+    //  Read the data from the config file
     public AdminProjectEvents() {
         try (InputStream inputStream = BaseTest.class.getClassLoader().getResourceAsStream("config.yml")) {
             if (inputStream == null) {
@@ -54,7 +53,7 @@ public class AdminProjectEvents {
     }
 
 
-//  Navigates to Admin Projects Routes page
+    //  Navigates to Admin Projects Routes page
     public void navigateToAdminProjectsRoutesPage() {
 
 
@@ -73,7 +72,7 @@ public class AdminProjectEvents {
 
     }
 
-//  Search Project
+    //  Search Project
     public void searchProjectById() {
         logger.info("Search Project by Id");
         WebElement search = elementFetch.getWebElement("XPATH", AdminProjectElements.searchFilter);
@@ -106,8 +105,6 @@ public class AdminProjectEvents {
         open.click();
 
     }
-
-
 
 
 }

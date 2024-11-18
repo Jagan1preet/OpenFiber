@@ -24,7 +24,7 @@
 
                 </methods>
             </class>
-            Admin Project Test Class to download CMT file compare data between two files (New and Old File)
+            Admin Project Test Class to download CMT file and compare data between two files (New and Old File)
             <class name="testCases.DataCompare">
                 <methods>
 

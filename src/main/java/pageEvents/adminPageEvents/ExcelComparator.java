@@ -18,6 +18,7 @@ public class ExcelComparator {
             e.printStackTrace();
         }
     }
+
     public static void compareExcelFiles(String newfile, String oldfile) throws IOException {
         logger.info("Read Data from the Excel Files");
         try (FileInputStream newCMTFile1 = new FileInputStream(newfile);
@@ -26,7 +27,7 @@ public class ExcelComparator {
              Workbook workbook2 = new XSSFWorkbook(oldCMTFile)) {
             Sheet sheet1 = workbook1.getSheetAt(0);
             Sheet sheet2 = workbook2.getSheetAt(0);
-            logger.info("Compare Data in both the files");
+            logger.info("Compare Data in New and Old CMT file");
             int rowCount = Math.max(sheet1.getPhysicalNumberOfRows(), sheet2.getPhysicalNumberOfRows());
             boolean identical = true;
             for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
@@ -55,6 +56,7 @@ public class ExcelComparator {
             }
             if (identical) {
                 System.out.println("Data in Both The Files are Same");
+                logger.info("Data in Both The Files are Same");
             }
         }
     }

@@ -27,7 +27,7 @@ public class LoginPageEvents {
     private static String password;
 
 
-//  Read the data prom the config file
+    //  Read the data prom the config file
     public LoginPageEvents() {
         try (InputStream inputStream = BaseTest.class.getClassLoader().getResourceAsStream("config.yml")) {
             if (inputStream == null) {
@@ -40,19 +40,13 @@ public class LoginPageEvents {
             password = (String) config.get("password");
 
 
-
-
-
         } catch (IOException e) {
             System.err.println("Error loading configuration: " + e.getMessage());
         }
     }
 
 
-
-
-
-//  Verifies if the login page is loaded
+    //  Verifies if the login page is loaded
     public void verifyIfLoginPageIsLoaded() {
         logger.info("Validate if all the elements load properly");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -60,7 +54,7 @@ public class LoginPageEvents {
     }
 
 
-//  Logs in with correct credentials
+    //  Logs in with correct credentials
     public void login() {
         logger.info("Enter correct credentials");
         WebElement emailField = elementFetch.getWebElement("XPATH", LoginPageElements.emailAddress);

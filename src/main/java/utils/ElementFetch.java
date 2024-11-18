@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 public class ElementFetch {
-    public WebElement getWebElement(String identifierType, String identifierValue){
-        switch (identifierType){
+    public WebElement getWebElement(String identifierType, String identifierValue) {
+        switch (identifierType) {
             case "XPATH":
                 return BaseTest.driver.findElement(By.xpath(identifierValue));
 
@@ -30,8 +30,8 @@ public class ElementFetch {
         }
     }
 
-    public List<WebElement> getWebElements(String identifierType, String identifierValue){
-        switch (identifierType){
+    public List<WebElement> getWebElements(String identifierType, String identifierValue) {
+        switch (identifierType) {
             case "XPATH":
                 return BaseTest.driver.findElements(By.xpath(identifierValue));
 

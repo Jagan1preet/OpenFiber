@@ -44,8 +44,6 @@ public class BaseTest {
     private static Map<String, Object> credentials;
 
 
-
-
     @BeforeSuite
     public void beforeSuite() {
 
@@ -91,7 +89,6 @@ public class BaseTest {
             }
             Yaml yaml = new Yaml();
             Map<String, Object> config = yaml.load(inputStream);
-
 
 
             url = (String) config.get("url");
@@ -149,8 +146,7 @@ public class BaseTest {
     }
 
     @AfterSuite
-    public void afterSuite()
-    {
+    public void afterSuite() {
         extent.flush();
 
     }
@@ -206,8 +202,9 @@ public class BaseTest {
         driver.get(url);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
     }
+
     public String captureScreenshot(String methodName) {
-        String screenshotPath = System.getProperty("user.dir") + File.separator + "reports" + File.separator + "Screenshots" +methodName + ".png";
+        String screenshotPath = System.getProperty("user.dir") + File.separator + "reports" + File.separator + "Screenshots" + methodName + ".png";
         File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         try {
             FileUtils.copyFile(screenshot, new File(screenshotPath));

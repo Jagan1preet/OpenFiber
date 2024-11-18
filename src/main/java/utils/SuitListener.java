@@ -17,7 +17,7 @@ public class SuitListener implements ITestListener, IAnnotationTransformer {
     @Override
     public void onTestFailure(ITestResult result) {
         String methodName = result.getMethod().getMethodName();
-        String screenshotPath = System.getProperty("user.dir") + File.separator + "reports"+File.separator+"screenshots" + File.separator + methodName + ".png";
+        String screenshotPath = System.getProperty("user.dir") + File.separator + "reports" + File.separator + "screenshots" + File.separator + methodName + ".png";
 
         // Capture the screenshot
         File screenshot = ((TakesScreenshot) BaseTest.driver).getScreenshotAs(OutputType.FILE);
