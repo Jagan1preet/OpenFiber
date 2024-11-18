@@ -56,6 +56,7 @@ public class LoginPageEvents {
 
     //  Logs in with correct credentials
     public void login() {
+        System.out.println("Parent Tab Title: " + driver.getTitle());
         logger.info("Enter correct credentials");
         WebElement emailField = elementFetch.getWebElement("XPATH", LoginPageElements.emailAddress);
         WebElement passwordField = elementFetch.getWebElement("XPATH", LoginPageElements.passwordField);

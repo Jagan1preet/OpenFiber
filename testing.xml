@@ -21,15 +21,13 @@
                 <methods>
                     <include name="navigateToAdminProjectsRoutesPage"/>
                     <include name="searchProjectById"/>
-
                 </methods>
             </class>
+
             Admin Project Test Class to download CMT file and compare data between two files (New and Old File)
             <class name="testCases.DataCompare">
                 <methods>
-
                     <include name="downloadAndCompareDataFile"/>
-
                 </methods>
             </class>
         </classes>

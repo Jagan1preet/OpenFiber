@@ -65,7 +65,7 @@ public class AdminProjectEvents {
         driver.switchTo().newWindow(WindowType.TAB);
         driver.get(adminproject);
 
-
+        System.out.println("Parent Tab Title: " + driver.getTitle());
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[contains(text(), '107248507')][2]")));
 
@@ -105,36 +105,8 @@ public class AdminProjectEvents {
         open.click();
 
     }
-
-
 }
 
-
-//
-//    public void compareDataFiles() throws IOException {
-//
-//
-//        String file1 = "CMTFile/Computo_Ripianificato_TEST_SEC (3).xlsx";
-//        String file2 = "dataToCompare/Computo_Ripianificato_TEST_SEC.xlsx";
-//
-//        Workbook workbook1 = new XSSFWorkbook(new FileInputStream(file1));
-//        Workbook workbook2 = new XSSFWorkbook(new FileInputStream(file2));
-//
-//        Sheet sheet1 = workbook1.getSheetAt(0);
-//        Sheet sheet2 = workbook2.getSheetAt(0);
-//
-//        for (int i = 0; i < sheet1.getPhysicalNumberOfRows(); i++) {
-//            Row row1 = sheet1.getRow(i);
-//            Row row2 = sheet2.getRow(i);
-//            if (!row1.getCell(0).getStringCellValue().equals(row2.getCell(0).getStringCellValue())) {
-//                System.out.println("Difference found at row " + (i + 1));
-//            }
-//        }
-//
-//        workbook1.close();
-//        workbook2.close();
-//    }
-//}
 
 
 
