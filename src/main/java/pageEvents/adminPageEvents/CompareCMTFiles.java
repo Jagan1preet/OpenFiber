@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import static base.BaseTest.logger;
 
-public class ExcelComparator {
+public class CompareCMTFiles {
     public static void compareFiles() {
         String newfile = "CMTFile/Computo_Ripianificato_TEST_SEC.xlsx";
         String oldfile = "dataToCompare/Computo_Ripianificato_TEST_SEC.xlsx";
@@ -39,6 +39,7 @@ public class ExcelComparator {
                 if (row1 == null || row2 == null) {
                     identical = false;
                     System.out.println("Difference found at row " + (rowIndex + 1) + ": One of the rows is empty.");
+                    logger.info("Difference found at row " + (rowIndex + 1) + ": One of the rows is empty.");
                     continue;
                 }
                 int cellCount = Math.max(row1.getPhysicalNumberOfCells(), row2.getPhysicalNumberOfCells());
@@ -50,6 +51,8 @@ public class ExcelComparator {
                     if (!value1.equals(value2)) {
                         identical = false;
                         System.out.println("Difference found at row " + (rowIndex + 1) + ", column " + (cellIndex + 1) + ": " +
+                                "newfile has '" + value1 + "'; oldfile has '" + value2 + "'");
+                        logger.info("Difference found at row " + (rowIndex + 1) + ", column " + (cellIndex + 1) + ": " +
                                 "newfile has '" + value1 + "'; oldfile has '" + value2 + "'");
                     }
                 }

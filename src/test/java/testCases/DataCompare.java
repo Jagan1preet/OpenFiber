@@ -2,14 +2,14 @@ package testCases;
 
 import org.testng.annotations.Test;
 import pageEvents.adminPageEvents.DownloadCMTFile;
-import pageEvents.adminPageEvents.ExcelComparator;
+import pageEvents.adminPageEvents.CompareCMTFiles;
 
 import java.io.IOException;
 
 public class DataCompare extends LogIn {
 
     DownloadCMTFile compare = new DownloadCMTFile();
-    ExcelComparator datafile = new ExcelComparator();
+    CompareCMTFiles datafile = new CompareCMTFiles();
 
 
     // Test case for Downloading CMT file and compare it with old file
@@ -18,7 +18,7 @@ public class DataCompare extends LogIn {
         loginPage.login();
         DownloadCMTFile.cleanFolder();
         DownloadCMTFile.CMTFile();
-        ExcelComparator.compareFiles();
+        CompareCMTFiles.compareFiles();
 
     }
 
