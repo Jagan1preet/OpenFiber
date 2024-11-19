@@ -66,7 +66,7 @@ public class AdminProjectEvents {
         driver.get(adminproject);
 
         System.out.println("Parent Tab Title: " + driver.getTitle());
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[contains(text(), '107248507')][2]")));
 
 
@@ -93,13 +93,13 @@ public class AdminProjectEvents {
         WebElement selectProject = elementFetch.getWebElement("XPATH", AdminProjectElements.selectProject1579594004);
         selectProject.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(text(), '161070481')]")));
         logger.info("Open Project having id 161070481");
         WebElement project161070481 = elementFetch.getWebElement("XPATH", AdminProjectElements.selectProject161070481);
         project161070481.click();
         String mainWindow = driver.getWindowHandle();
-        WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(40));
         wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'Apri Progetto')]")));
         WebElement open = elementFetch.getWebElement("XPATH", AdminProjectElements.projectOpen);
         open.click();
