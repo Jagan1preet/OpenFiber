@@ -92,20 +92,19 @@ public class DownloadCMTFile {
             WebElement selectProject = elementFetch.getWebElement("XPATH", AdminProjectElements.selectProject1579594004);
             selectProject.click();
 
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(text(), '161070481')]")));
+            WebDriverWait wait2 = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(text(), '161070481')]")));
             logger.info("Open Project having id 161070481");
             WebElement project161070481 = elementFetch.getWebElement("XPATH", AdminProjectElements.selectProject161070481);
             project161070481.click();
-
             WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'Apri Progetto')]")));
-            WebElement openproject = elementFetch.getWebElement("XPATH", AdminProjectElements.projectOpen);
-            openproject.click();
+            WebElement opennew = elementFetch.getWebElement("XPATH", AdminProjectElements.projectOpen);
+            opennew.click();
 
 
             // Wait for the new sub-child tab to open
-            Thread.sleep(50000); // Use WebDriverWait in production code
+            Thread.sleep(40000); // Use WebDriverWait in production code
 
             // Store all window handles again
             windowHandles = new ArrayList<>(driver.getWindowHandles());
@@ -120,8 +119,10 @@ public class DownloadCMTFile {
 
             // Perform actions in the sub-child tab
             System.out.println("Sub-Child Tab Title: " + driver.getTitle());
-            WebDriverWait waitone = new WebDriverWait(driver, Duration.ofSeconds(20));
-            waitone.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains (text(),'Gestione Elaborati')]")));
+//            WebDriverWait wait3 = new WebDriverWait(driver, Duration.ofSeconds(20));
+//            wait3.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains (text(),'Gestione Elaborati')]")));
+//
+//
             WebElement document = elementFetch.getWebElement("XPATH", AdminProjectElements.documentManagement);
             document.click();
 
@@ -130,21 +131,20 @@ public class DownloadCMTFile {
 
             WebElement cmt = elementFetch.getWebElement("XPATH", AdminProjectElements.CMT);
             cmt.click();
-            WebDriverWait wait2 = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wait2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='extract']")));
+            WebDriverWait waait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            waait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='extract']")));
 
 
-            WebElement extract = elementFetch.getWebElement("XPATH", AdminProjectElements.extract);
-            extract.click();
 
-            WebDriverWait wait3 = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wait3.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='dojoxFloatingCloseIcon']")));
+            WebDriverWait waait1 = new WebDriverWait(driver, Duration.ofSeconds(30));
+            waait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='dojoxFloatingCloseIcon']")));
 
             WebElement close = elementFetch.getWebElement("XPATH", AdminProjectElements.close);
-            close.click();
+            Actions action = new Actions(driver);
+            action.moveToElement(close).click().perform();
 
-            WebDriverWait wait4 = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wait4.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Fibre e giunzioni')]")));
+            WebDriverWait waait2 = new WebDriverWait(driver, Duration.ofSeconds(30));
+            waait2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Fibre e giunzioni')]")));
 
             WebElement fiber = elementFetch.getWebElement("XPATH", AdminProjectElements.fiber);
             Actions actions = new Actions(driver);
@@ -164,18 +164,25 @@ public class DownloadCMTFile {
             WebElement Cmt = elementFetch.getWebElement("XPATH", AdminProjectElements.CMT);
             Cmt.click();
 
-            WebDriverWait wait5 = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wait5.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='extract']")));
+            WebDriverWait wt1 = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wt1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='extract']")));
 
 
             logger.info("click on Extract");
             WebElement Extract = elementFetch.getWebElement("XPATH", AdminProjectElements.extract);
             Extract.click();
 
-// Click on the Invia button to download the file
-            logger.info("Clicking on Invia to download file");
+            WebDriverWait wt = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wt.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='btnSubmit']")));
+
+
+//     Click on the Invia button to download the file
+
+            logger.info("click on Invia to download file");
             WebElement invia = driver.findElement(By.xpath(AdminProjectElements.invia));
             invia.click();
+
+
 
 // Get the download directory path
             String downloadDirPath = System.getProperty("user.dir") + File.separator + "CMTFile";
@@ -185,13 +192,13 @@ public class DownloadCMTFile {
 
 // Wait for the file to be downloaded
             int timeout = 120; // seconds
-            int pollingInterval = 30000; // 60 second
+            int pollingInterval = 30000; // 30 second
             long startTime = System.currentTimeMillis();
 
             while (!file.exists() && (System.currentTimeMillis() - startTime) < (timeout * 30000)) {
                 logger.info("Waiting for file to download: " + file.getAbsolutePath());
                 try {
-                    Thread.sleep(pollingInterval); // Wait for 30 second before checking again
+                    Thread.sleep(pollingInterval); // Wait for 1 second before checking again
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt(); // Restore the interrupted status
                     logger.info("Thread was interrupted while waiting for file download");
@@ -207,28 +214,39 @@ public class DownloadCMTFile {
             }
         } catch (Exception e) {
             logger.info("An error occurred during file download process");
-        } finally {
-            driver.close();
         }
-
     }
-
 }
 
 
-//            WebDriverWait wt = new WebDriverWait(driver, Duration.ofSeconds(30));
-//            wt.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='btnSubmit']")));
 
 
-//     Click on the Invia button to download the file
+
+
+
+
+
+
+
+
+//     Get the download directory path
+//           String downloadDirPath = System.getProperty("user.dir") + File.separator + "CMTFile";
+
 //
-//            logger.info("click on Invia to download file");
+//            // Click on the Invia button to download the file
+//            logger.info("Clicking on Invia to download file");
 //            WebElement invia = driver.findElement(By.xpath(AdminProjectElements.invia));
 //            invia.click();
-//
-////     Get the download directory path
-//            String downloadDirPath = System.getProperty("user.dir") + File.separator + "CMTFile";
-//
+
+
+
+
+
+
+
+
+
+
 ////     Wait for the file to be downloaded
 //            File file = new File(downloadDirPath + File.separator + "Computo_Ripianificato_TEST_SEC.xlsx"); // Replace with the actual file name
 //            int timeout = 60; // seconds
