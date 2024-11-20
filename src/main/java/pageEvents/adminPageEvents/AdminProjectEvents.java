@@ -54,7 +54,7 @@ public class AdminProjectEvents {
 
 
     //  Navigates to Admin Projects Routes page
-    public void navigateToAdminProjectsRoutesPage() {
+    public void navigateToTratteProgettiAdmin() {
 
 
         logger.info("Click on As built in the dashboard");
@@ -65,7 +65,6 @@ public class AdminProjectEvents {
         driver.switchTo().newWindow(WindowType.TAB);
         driver.get(adminproject);
 
-        System.out.println("Parent Tab Title: " + driver.getTitle());
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[contains(text(), '107248507')][2]")));
 
@@ -98,7 +97,6 @@ public class AdminProjectEvents {
         logger.info("Open Project having id 161070481");
         WebElement project161070481 = elementFetch.getWebElement("XPATH", AdminProjectElements.selectProject161070481);
         project161070481.click();
-        String mainWindow = driver.getWindowHandle();
         WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(40));
         wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'Apri Progetto')]")));
         WebElement open = elementFetch.getWebElement("XPATH", AdminProjectElements.projectOpen);

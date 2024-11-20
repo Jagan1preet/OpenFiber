@@ -19,7 +19,7 @@
             Admin Project Test Class to search and open project
             <class name="testCases.AdminProject">
                 <methods>
-                    <include name="navigateToAdminProjectsRoutesPage"/>
+                    <include name="navigateToTratteProgettiAdmin"/>
                     <include name="searchProjectById"/>
                 </methods>
             </class>

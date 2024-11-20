@@ -41,7 +41,7 @@ public interface AdminProjectElements {
     //  Click on Extract
     String extract = "//input[@id='extract']";
 
-    //  Click on Send button to download the Excel file
+
     String close = "//span[@class='dojoxFloatingCloseIcon']";
 
     //  Click on fibre

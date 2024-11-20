@@ -119,10 +119,7 @@ public class DownloadCMTFile {
 
             // Perform actions in the sub-child tab
             System.out.println("Sub-Child Tab Title: " + driver.getTitle());
-//            WebDriverWait wait3 = new WebDriverWait(driver, Duration.ofSeconds(20));
-//            wait3.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains (text(),'Gestione Elaborati')]")));
-//
-//
+
             WebElement document = elementFetch.getWebElement("XPATH", AdminProjectElements.documentManagement);
             document.click();
 
@@ -176,7 +173,7 @@ public class DownloadCMTFile {
             wt.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='btnSubmit']")));
 
 
-//     Click on the Invia button to download the file
+//          Click on the Invia button to download the file
 
             logger.info("click on Invia to download file");
             WebElement invia = driver.findElement(By.xpath(AdminProjectElements.invia));
@@ -184,13 +181,13 @@ public class DownloadCMTFile {
 
 
 
-// Get the download directory path
+//          Get the download directory path
             String downloadDirPath = System.getProperty("user.dir") + File.separator + "CMTFile";
 
-// Define the file to check for
+//          Define the file to check for
             File file = new File(downloadDirPath + File.separator + "Computo_Ripianificato_TEST_SEC.xlsx"); // Replace with the actual file name
 
-// Wait for the file to be downloaded
+//          Wait for the file to be downloaded
             int timeout = 120; // seconds
             int pollingInterval = 30000; // 30 second
             long startTime = System.currentTimeMillis();
@@ -205,7 +202,7 @@ public class DownloadCMTFile {
                 }
             }
 
-// Verify the file existence
+//          Verify the file existence
             if (file.exists()) {
                 logger.info("File downloaded successfully: " + file.getAbsolutePath());
             } else {
