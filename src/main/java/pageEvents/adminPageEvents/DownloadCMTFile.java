@@ -19,6 +19,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +35,7 @@ public class DownloadCMTFile {
 
 
     //  Code to clean the directory
-    public static void cleanFolder() throws IOException {
+    public static void cleanCMTFolder() throws IOException {
         String downloadDirPath = System.getProperty("user.dir") + File.separator + "CMTFile";
         File directory = new File(downloadDirPath);
         logger.info("Delete the previous file from the folder so that new file will be downloaded");
@@ -132,7 +135,6 @@ public class DownloadCMTFile {
             waait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='extract']")));
 
 
-
             WebDriverWait waait1 = new WebDriverWait(driver, Duration.ofSeconds(30));
             waait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='dojoxFloatingCloseIcon']")));
 
@@ -180,7 +182,6 @@ public class DownloadCMTFile {
             invia.click();
 
 
-
 //          Get the download directory path
             String downloadDirPath = System.getProperty("user.dir") + File.separator + "CMTFile";
 
@@ -188,88 +189,71 @@ public class DownloadCMTFile {
             File file = new File(downloadDirPath + File.separator + "Computo_Ripianificato_TEST_SEC.xlsx"); // Replace with the actual file name
 
 //          Wait for the file to be downloaded
-            int timeout = 120; // seconds
+            int timeout = 1500; // seconds
             int pollingInterval = 30000; // 30 second
             long startTime = System.currentTimeMillis();
 
             while (!file.exists() && (System.currentTimeMillis() - startTime) < (timeout * 30000)) {
                 logger.info("Waiting for file to download: " + file.getAbsolutePath());
+                System.out.println("Waiting for file to download: " + file.getAbsolutePath());
                 try {
                     Thread.sleep(pollingInterval); // Wait for 1 second before checking again
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt(); // Restore the interrupted status
                     logger.info("Thread was interrupted while waiting for file download");
+                    System.out.println("Thread was interrupted while waiting for file download");
                 }
             }
 
 //          Verify the file existence
             if (file.exists()) {
                 logger.info("File downloaded successfully: " + file.getAbsolutePath());
+                System.out.println("File downloaded successfully: " + file.getAbsolutePath());
             } else {
                 logger.info("File not downloaded: " + file.getAbsolutePath());
+                System.out.println("File not downloaded: " + file.getAbsolutePath());
                 Assert.fail("File not downloaded");
             }
         } catch (Exception e) {
             logger.info("An error occurred during file download process");
+            System.out.println("An error occurred during file download process");
+        }
+    }
+
+
+    //  Code to clean the directory
+    public static void cleanoldCMTFolder() throws IOException {
+        String OldCMT = System.getProperty("user.dir") + File.separator + "OldCMTFor161070481";
+        File directory = new File(OldCMT);
+        logger.info("Deleted the old CMT file from the folder so that new file will be moved");
+        FileUtils.cleanDirectory(directory);
+    }
+
+
+    public static void moveFile() {
+
+
+        // Specify the source file path and destination directory
+        Path sourceFile = Paths.get("CMTFile/Computo_Ripianificato_TEST_SEC.xlsx");
+        Path destinationFile = Paths.get("OldCMTFor161070481/Computo_Ripianificato_TEST_SEC.xlsx");
+
+        try {
+            // Move the file
+            Files.move(sourceFile, destinationFile);
+
+            System.out.println("File moved successfully.");
+            logger.info("New File moved to Old CMT For 161070481 Project folder");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+
         }
     }
 }
 
 
 
-
-
-
-
-
-
-
-
-
-//     Get the download directory path
-//           String downloadDirPath = System.getProperty("user.dir") + File.separator + "CMTFile";
-
-//
-//            // Click on the Invia button to download the file
-//            logger.info("Clicking on Invia to download file");
-//            WebElement invia = driver.findElement(By.xpath(AdminProjectElements.invia));
-//            invia.click();
-
-
-
-
-
-
-
-
-
-
-////     Wait for the file to be downloaded
-//            File file = new File(downloadDirPath + File.separator + "Computo_Ripianificato_TEST_SEC.xlsx"); // Replace with the actual file name
-//            int timeout = 60; // seconds
-//            while (!file.exists() && timeout > 0) {
-//                Thread.sleep(90000); // wait for 90 second
-//                timeout--;
-//
-//
-////     Verify the file existence
-//                if (file.exists()) {
-//                    logger.info("File downloaded successfully: " + file.getAbsolutePath());
-//                } else {
-//                    logger.info("File not downloaded: " + file.getAbsolutePath());
-//                    Assert.fail("File not downloaded");
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            // Teardown WebDriver
-//            driver.close();
-//        }
-//
-//    }
-//
-//}
 
 
 

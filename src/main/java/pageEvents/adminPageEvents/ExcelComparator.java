@@ -11,7 +11,7 @@ import static base.BaseTest.logger;
 public class ExcelComparator {
     public static void compareFiles() {
         String newfile = "CMTFile/Computo_Ripianificato_TEST_SEC.xlsx";
-        String oldfile = "dataToCompare/Computo_Ripianificato_TEST_SEC.xlsx";
+        String oldfile = "OldCMTFor161070481/Computo_Ripianificato_TEST_SEC.xlsx";
         try {
             compareExcelFiles(newfile, oldfile);
         } catch (IOException e) {
