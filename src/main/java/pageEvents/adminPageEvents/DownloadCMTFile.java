@@ -38,7 +38,7 @@ public class DownloadCMTFile {
     public static void cleanCMTFolder() throws IOException {
         String downloadDirPath = System.getProperty("user.dir") + File.separator + "CMTFile";
         File directory = new File(downloadDirPath);
-        logger.info("Delete the previous file from the folder so that new file will be downloaded");
+        logger.info("Delete the previous file from the CMT folder so that new file will be downloaded");
         FileUtils.cleanDirectory(directory);
     }
 
@@ -102,12 +102,12 @@ public class DownloadCMTFile {
             project161070481.click();
             WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'Apri Progetto')]")));
-            WebElement opennew = elementFetch.getWebElement("XPATH", AdminProjectElements.projectOpen);
-            opennew.click();
+            WebElement openproject = elementFetch.getWebElement("XPATH", AdminProjectElements.projectOpen);
+            openproject.click();
 
 
             // Wait for the new sub-child tab to open
-            Thread.sleep(40000); // Use WebDriverWait in production code
+            Thread.sleep(40000);
 
             // Store all window handles again
             windowHandles = new ArrayList<>(driver.getWindowHandles());
@@ -186,7 +186,7 @@ public class DownloadCMTFile {
             String downloadDirPath = System.getProperty("user.dir") + File.separator + "CMTFile";
 
 //          Define the file to check for
-            File file = new File(downloadDirPath + File.separator + "Computo_Ripianificato_TEST_SEC.xlsx"); // Replace with the actual file name
+            File file = new File(downloadDirPath + File.separator + "Computo_Ripianificato_TEST_SEC.xlsx");
 
 //          Wait for the file to be downloaded
             int timeout = 1500; // seconds
@@ -197,7 +197,7 @@ public class DownloadCMTFile {
                 logger.info("Waiting for file to download: " + file.getAbsolutePath());
                 System.out.println("Waiting for file to download: " + file.getAbsolutePath());
                 try {
-                    Thread.sleep(pollingInterval); // Wait for 1 second before checking again
+                    Thread.sleep(pollingInterval); // Wait for 30 second before checking again
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt(); // Restore the interrupted status
                     logger.info("Thread was interrupted while waiting for file download");
