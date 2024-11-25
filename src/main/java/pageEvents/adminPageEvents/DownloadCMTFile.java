@@ -190,14 +190,14 @@ public class DownloadCMTFile {
 
 //          Wait for the file to be downloaded
             int timeout = 1500; // seconds
-            int pollingInterval = 30000; // 30 second
+            int pollingInterval = 30000; // 30 seconds wait time to check the file downloaded or not after clicking on the button to download file
             long startTime = System.currentTimeMillis();
 
             while (!file.exists() && (System.currentTimeMillis() - startTime) < (timeout * 30000)) {
                 logger.info("Waiting for file to download: " + file.getAbsolutePath());
                 System.out.println("Waiting for file to download: " + file.getAbsolutePath());
                 try {
-                    Thread.sleep(pollingInterval); // Wait for 30 second before checking again
+                    Thread.sleep(pollingInterval); // Wait for every 30 second before checking file downloaded in the folder
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt(); // Restore the interrupted status
                     logger.info("Thread was interrupted while waiting for file download");
@@ -205,7 +205,8 @@ public class DownloadCMTFile {
                 }
             }
 
-//          Verify the file existence
+
+//          Verify the file existence in the folder
             if (file.exists()) {
                 logger.info("File downloaded successfully: " + file.getAbsolutePath());
                 System.out.println("File downloaded successfully: " + file.getAbsolutePath());
@@ -230,8 +231,8 @@ public class DownloadCMTFile {
     }
 
 
+    // Code to move the downloaded CMT file in the Folder
     public static void moveFile() {
-
 
         // Specify the source file path and destination directory
         Path sourceFile = Paths.get("CMTFile/Computo_Ripianificato_TEST_SEC.xlsx");
