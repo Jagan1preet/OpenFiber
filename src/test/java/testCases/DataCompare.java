@@ -16,10 +16,10 @@ public class DataCompare extends LogIn {
     @Test(description = "Verify user able to download and compare CMT file ")
     public void downloadAndCompareDataFile() throws InterruptedException, IOException {
         loginPage.login();
-        DownloadCMTFile.CMTFile();
-        ExcelComparator.compareFiles();
         DownloadCMTFile.cleanoldCMTFolder();
         DownloadCMTFile.moveFile();
+        DownloadCMTFile.CMTFile();
+        ExcelComparator.compareFiles();
 
     }
 

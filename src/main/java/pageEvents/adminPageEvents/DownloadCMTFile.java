@@ -189,7 +189,7 @@ public class DownloadCMTFile {
             File file = new File(downloadDirPath + File.separator + "Computo_Ripianificato_TEST_SEC.xlsx");
 
 //          Wait for the file to be downloaded
-            int timeout = 1500; // seconds
+            int timeout = 1500; // seconds (25 minutes)
             int pollingInterval = 30000; // 30 seconds wait time to check the file downloaded or not after clicking on the button to download file
             long startTime = System.currentTimeMillis();
 
@@ -226,7 +226,7 @@ public class DownloadCMTFile {
     public static void cleanoldCMTFolder() throws IOException {
         String OldCMT = System.getProperty("user.dir") + File.separator + "OldCMTFor161070481";
         File directory = new File(OldCMT);
-        logger.info("Deleted the old CMT file from the folder so that new file will be moved");
+        logger.info("Delete the old CMT file from the folder so that CMT File from previous Test will be moved to the folder for comparision with new file");
         FileUtils.cleanDirectory(directory);
     }
 
@@ -243,7 +243,7 @@ public class DownloadCMTFile {
             Files.move(sourceFile, destinationFile);
 
             System.out.println("File moved successfully.");
-            logger.info("New File moved to Old CMT For 161070481 Project folder");
+            logger.info("CMT File from previous Test moved to the folder so that new CMT file will be compared with this Old file");
 
         } catch (IOException e) {
             e.printStackTrace();
