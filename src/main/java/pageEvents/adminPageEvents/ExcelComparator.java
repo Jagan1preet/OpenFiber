@@ -30,6 +30,8 @@ public class ExcelComparator {
             logger.info("Compare Data in New and Old CMT file");
             int rowCount = Math.max(sheet1.getPhysicalNumberOfRows(), sheet2.getPhysicalNumberOfRows());
             boolean identical = true;
+            logger.info("Compares the number of rows in both sheets");
+            logger.info("Compares the values of cells from both files");
             for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
                 Row row1 = sheet1.getRow(rowIndex);
                 Row row2 = sheet2.getRow(rowIndex);

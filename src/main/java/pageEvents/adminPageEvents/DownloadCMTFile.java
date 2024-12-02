@@ -100,8 +100,8 @@ public class DownloadCMTFile {
             logger.info("Open Project having id 161070481");
             WebElement project161070481 = elementFetch.getWebElement("XPATH", AdminProjectElements.selectProject161070481);
             project161070481.click();
-            WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'Apri Progetto')]")));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'Apri Progetto')]")));
             WebElement openproject = elementFetch.getWebElement("XPATH", AdminProjectElements.projectOpen);
             openproject.click();
 
@@ -131,19 +131,19 @@ public class DownloadCMTFile {
 
             WebElement cmt = elementFetch.getWebElement("XPATH", AdminProjectElements.CMT);
             cmt.click();
-            WebDriverWait waait = new WebDriverWait(driver, Duration.ofSeconds(30));
-            waait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='extract']")));
+            WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='extract']")));
 
 
-            WebDriverWait waait1 = new WebDriverWait(driver, Duration.ofSeconds(30));
-            waait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='dojoxFloatingCloseIcon']")));
+            WebDriverWait wit2 = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wit2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='dojoxFloatingCloseIcon']")));
 
             WebElement close = elementFetch.getWebElement("XPATH", AdminProjectElements.close);
             Actions action = new Actions(driver);
             action.moveToElement(close).click().perform();
 
-            WebDriverWait waait2 = new WebDriverWait(driver, Duration.ofSeconds(30));
-            waait2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Fibre e giunzioni')]")));
+            WebDriverWait wait3 = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait3.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Fibre e giunzioni')]")));
 
             WebElement fiber = elementFetch.getWebElement("XPATH", AdminProjectElements.fiber);
             Actions actions = new Actions(driver);
@@ -171,8 +171,8 @@ public class DownloadCMTFile {
             WebElement Extract = elementFetch.getWebElement("XPATH", AdminProjectElements.extract);
             Extract.click();
 
-            WebDriverWait wt = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wt.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='btnSubmit']")));
+            WebDriverWait wait4 = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait4.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='btnSubmit']")));
 
 
 //          Click on the Invia button to download the file
