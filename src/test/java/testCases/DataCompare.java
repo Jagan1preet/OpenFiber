@@ -1,25 +1,27 @@
 package testCases;
 
 import org.testng.annotations.Test;
+import pageEvents.adminPageEvents.AdminProjectEvents;
 import pageEvents.adminPageEvents.DownloadCMTFile;
-import pageEvents.adminPageEvents.ExcelComparator;
+
 
 import java.io.IOException;
 
+import static pageObjects.adminProject.AdminProjectElements.adminProjectsRoutes;
+
 public class DataCompare extends LogIn {
 
-    DownloadCMTFile compare = new DownloadCMTFile();
-    ExcelComparator datafile = new ExcelComparator();
-
+    AdminProjectEvents adminProjectsRoutes = new AdminProjectEvents();
 
     // Test case for Downloading CMT file and compare it with old file
     @Test(description = "Verify user able to download and compare CMT file ")
-    public void downloadAndCompareDataFile() throws InterruptedException, IOException {
+    public void downloadAndCompareDataFile() throws IOException, InterruptedException {
         loginPage.login();
         DownloadCMTFile.cleanoldCMTFolder();
         DownloadCMTFile.moveFile();
+        adminProjectsRoutes.openAdminProject();
         DownloadCMTFile.CMTFile();
-        ExcelComparator.compareFiles();
+        DownloadCMTFile.compareFiles();
 
     }
 

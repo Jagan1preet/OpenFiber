@@ -19,8 +19,7 @@
             Admin Project Test Class to search and open project
             <class name="testCases.AdminProject">
                 <methods>
-                    <include name="navigateToTratteProgettiAdmin"/>
-                    <include name="searchProjectById"/>
+                    <include name="openAdminProject"/>
                 </methods>
             </class>
 
@@ -29,6 +28,7 @@
                 <methods>
                     <include name="downloadAndCompareDataFile"/>
                 </methods>
+
             </class>
         </classes>
     </test>

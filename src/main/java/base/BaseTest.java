@@ -24,14 +24,12 @@ import org.testng.annotations.*;
 import org.yaml.snakeyaml.Yaml;
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 
 public class BaseTest {
@@ -48,7 +46,7 @@ public class BaseTest {
     public void beforeSuite() {
 
 
-        sparkReporter = new ExtentSparkReporter(System.getProperty("user.dir") + File.separator + "reports" + File.separator + "Ressult.html");
+        sparkReporter = new ExtentSparkReporter(System.getProperty("user.dir") + File.separator + "reports" + File.separator + "Result.html");
         extent = new ExtentReports();
         extent.attachReporter(sparkReporter);
         sparkReporter.config().setTheme(Theme.DARK);
@@ -82,7 +80,31 @@ public class BaseTest {
                 "});";
 
         sparkReporter.config().setJs(customJS);
+        loadProperties();
+        loadConfig();
 
+
+    }
+
+    private void loadProperties() {
+        Properties properties = new Properties();
+        try (InputStream input = BaseTest.class.getClassLoader().getResourceAsStream("property.env")) {
+            if (input == null) {
+                System.err.println("property.env not found in the classpath");
+                return;
+            }
+            properties.load(input);
+        } catch (IOException ex) {
+            System.err.println("Error loading properties: " + ex.getMessage());
+        }
+
+        // Set system properties for later use in config.yml
+        for (String name : properties.stringPropertyNames()) {
+            System.setProperty(name, properties.getProperty(name));
+        }
+    }
+
+    private void loadConfig() {
         try (InputStream inputStream = BaseTest.class.getClassLoader().getResourceAsStream("config.yml")) {
             if (inputStream == null) {
                 throw new FileNotFoundException("config.yml not found in the classpath");
@@ -90,12 +112,32 @@ public class BaseTest {
             Yaml yaml = new Yaml();
             Map<String, Object> config = yaml.load(inputStream);
 
+            // Default to testing environment
+            String environmentType = "testing"; // Change this if needed
 
-            url = (String) config.get("url");
-            System.out.println("URL: " + url);
+            // Check if the environments key is present in the config
+            if (config.containsKey("environments")) {
+                Map<String, Object> environments = (Map<String, Object>) config.get("environments");
 
-            credentials = (Map<String, Object>) config.get("credentials");
+                // Check if the specified environment is present
+                if (environments.containsKey(environmentType)) {
+                    Map<String, Object> selectedConfig = (Map<String, Object>) environments.get(environmentType);
 
+                    // Get the URL for the selected environment
+                    if (selectedConfig.containsKey("url")) {
+                        url = (String) selectedConfig.get("url");
+                        // Replace placeholders with system properties
+                        url = url.replace("${URL}", System.getProperty("URL"));
+                        System.out.println(url);
+                    } else {
+                        System.err.println("URL key not found in " + environmentType + " section of config.yml");
+                    }
+                } else {
+                    System.err.println(environmentType + " environment not found in config.yml");
+                }
+            } else {
+                System.err.println("Environments key not found in config.yml");
+            }
         } catch (IOException e) {
             System.err.println("Error loading configuration: " + e.getMessage());
         }

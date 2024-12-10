@@ -1,6 +1,7 @@
 package pageEvents.adminPageEvents;
 
 import base.BaseTest;
+import lombok.Getter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -34,45 +35,74 @@ public class AdminProjectEvents {
 
 
     private ElementFetch elementFetch = new ElementFetch();
-    private static String adminproject;
+    @Getter
+    private String search_project;
+    @Getter
+    private String open_project;
 
 
-    //  Read the data from the config file
-    public AdminProjectEvents() {
-        try (InputStream inputStream = BaseTest.class.getClassLoader().getResourceAsStream("config.yml")) {
+
+    private void loadConfig() {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.yml")) {
             if (inputStream == null) {
                 throw new FileNotFoundException("config.yml not found in the classpath");
             }
             Yaml yaml = new Yaml();
             Map<String, Object> config = yaml.load(inputStream);
 
-            adminproject = (String) config.get("adminproject");
+            // Load credentials
+            if (config.containsKey("credentials")) {
+                Map<String, Object> creds = (Map<String, Object>) config.get("credentials");
+                search_project  = (String) creds.get("search_project");
+                open_project= (String) creds.get("open_project");
+
+                // Replace placeholders with actual values
+                search_project = search_project.replace("${SEARCHPROJECT}", System.getProperty("SEARCHPROJECT"));
+                open_project = open_project.replace("${OPENPROJECT}", System.getProperty("OPENPROJECT"));
+            } else {
+                System.err.println("Credentials key not found in config.yml");
+            }
+
+
+
         } catch (IOException e) {
             System.err.println("Error loading configuration: " + e.getMessage());
         }
     }
 
 
-    //  Navigates to Admin Projects Routes page
-    public void navigateToTratteProgettiAdmin() {
 
+    //  Navigates to Admin Projects Routes page
+    public void openAdminProject() throws InterruptedException {
+        loadConfig();
 
         logger.info("Click on As built in the dashboard");
         WebElement select = elementFetch.getWebElement("XPATH", AdminProjectElements.selectAsBuiltText);
         select.click();
 
         logger.info("Open Tratte Progetti Admin");
-        driver.switchTo().newWindow(WindowType.TAB);
-        driver.get(adminproject);
+        WebElement open = elementFetch.getWebElement("XPATH", AdminProjectElements.adminProjectsRoutes);
+        open.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[contains(text(), '107248507')][2]")));
+        // Wait for the new tab to open
+        Thread.sleep(50000);
 
+        // Get the current window handle
+        String parentWindow = driver.getWindowHandle();
 
-    }
+        // Store all window handles in a list
+        List<String> windowHandles = new ArrayList<>(driver.getWindowHandles());
 
-    //  Search Project
-    public void searchProjectById() {
+        // Switch to the child window (tab)
+        for (String windowHandle : windowHandles) {
+            if (!windowHandle.equals(parentWindow)) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
+
+        // Perform actions in child window
+        System.out.println("Child Tab Title: " + driver.getTitle());
         logger.info("Search Project by Id");
         WebElement search = elementFetch.getWebElement("XPATH", AdminProjectElements.searchFilter);
         search.click();
@@ -80,7 +110,7 @@ public class AdminProjectEvents {
         WebElement field = elementFetch.getWebElement("XPATH", AdminProjectElements.searchField);
         field.click();
         field.clear();
-        field.sendKeys("1579594004");
+        field.sendKeys(search_project);
 
         WebElement searchButton = elementFetch.getWebElement("CSS", AdminProjectElements.searchButton);
         searchButton.click();
@@ -88,20 +118,33 @@ public class AdminProjectEvents {
         WebElement closeFilter = elementFetch.getWebElement("CSS", AdminProjectElements.closeButton);
         closeFilter.click();
 
-        logger.info("Click on Project having project id " + 1579594004);
+        logger.info("Click on Project having project id " + search_project);
         WebElement selectProject = elementFetch.getWebElement("XPATH", AdminProjectElements.selectProject1579594004);
         selectProject.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(text(), '161070481')]")));
-        logger.info("Open Project having id 161070481");
-        WebElement project161070481 = elementFetch.getWebElement("XPATH", AdminProjectElements.selectProject161070481);
-        project161070481.click();
-        WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(40));
-        wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'Apri Progetto')]")));
-        WebElement open = elementFetch.getWebElement("XPATH", AdminProjectElements.projectOpen);
-        open.click();
+        WebDriverWait wait2 = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(text(), '161070481')]")));
+        logger.info("Open Project having id" +open_project);
+        WebElement project = elementFetch.getWebElement("XPATH", AdminProjectElements.selectProject161070481);
+        project.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'Apri Progetto')]")));
+        WebElement openproject = elementFetch.getWebElement("XPATH", AdminProjectElements.projectOpen);
+        openproject.click();
+        // Wait for the new sub-child tab to open
+        Thread.sleep(40000);
 
+        // Store all window handles again
+        windowHandles = new ArrayList<>(driver.getWindowHandles());
+
+        // Switch to the sub-child window (tab)
+        for (String windowHandle : windowHandles) {
+            if (!windowHandle.equals(parentWindow) && !windowHandle.equals(driver.getWindowHandle())) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
+        System.out.println("Sub child Tab Title: " + driver.getTitle());
     }
 }
 

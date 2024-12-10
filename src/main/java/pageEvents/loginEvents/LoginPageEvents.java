@@ -1,6 +1,6 @@
 package pageEvents.loginEvents;
 
-import base.BaseTest;
+import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -23,28 +23,41 @@ import static base.BaseTest.logger;
 public class LoginPageEvents {
 
     private ElementFetch elementFetch = new ElementFetch();
-    private static String username;
-    private static String password;
+    @Getter
+    private String username;
+    @Getter
+    private String password;
 
 
-    //  Read the data prom the config file
-    public LoginPageEvents() {
-        try (InputStream inputStream = BaseTest.class.getClassLoader().getResourceAsStream("config.yml")) {
+    private void loadConfig() {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.yml")) {
             if (inputStream == null) {
                 throw new FileNotFoundException("config.yml not found in the classpath");
             }
             Yaml yaml = new Yaml();
             Map<String, Object> config = yaml.load(inputStream);
 
-            username = (String) config.get("username");
-            password = (String) config.get("password");
+            // Load credentials
+            if (config.containsKey("credentials")) {
+                Map<String, Object> creds = (Map<String, Object>) config.get("credentials");
+                username = (String) creds.get("username");
+                password = (String) creds.get("password");
 
+                // Replace placeholders with actual values
+                username = username.replace("${USERNAME}", System.getProperty("USERNAME"));
+                password = password.replace("${PASSWORD}", System.getProperty("PASSWORD"));
+            } else {
+                System.err.println("Credentials key not found in config.yml");
+            }
+
+            // Debugging statements
+            System.out.println("Username: " + username);
+            System.out.println("Password: " + password);
 
         } catch (IOException e) {
             System.err.println("Error loading configuration: " + e.getMessage());
         }
     }
-
 
     //  Verifies if the login page is loaded
     public void verifyIfLoginPageIsLoaded() {
@@ -56,6 +69,7 @@ public class LoginPageEvents {
 
     //  Logs in with correct credentials
     public void login() {
+        loadConfig();
         System.out.println("Parent Tab Title: " + driver.getTitle());
         logger.info("Enter correct credentials");
         WebElement emailField = elementFetch.getWebElement("XPATH", LoginPageElements.emailAddress);

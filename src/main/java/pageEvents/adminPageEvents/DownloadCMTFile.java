@@ -2,6 +2,11 @@ package pageEvents.adminPageEvents;
 
 import base.BaseTest;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -15,210 +20,136 @@ import org.yaml.snakeyaml.Yaml;
 import pageObjects.adminProject.AdminProjectElements;
 import utils.ElementFetch;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
+import java.nio.file.*;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static base.BaseTest.driver;
 import static base.BaseTest.logger;
 
 public class DownloadCMTFile {
 
+    private static String oldCMTFilePath;
+    private static String downloadedFilePath;
 
-    //  Code to clean the directory
-    public static void cleanCMTFolder() throws IOException {
-        String downloadDirPath = System.getProperty("user.dir") + File.separator + "CMTFile";
-        File directory = new File(downloadDirPath);
-        logger.info("Delete the previous file from the CMT folder so that new file will be downloaded");
-        FileUtils.cleanDirectory(directory);
-    }
 
     //  Code to download CMT File
-    public static void CMTFile() throws InterruptedException {
+    public static void CMTFile() {
 
         ElementFetch elementFetch = new ElementFetch();
-        try {
-
-            logger.info("Click on As built in the dashboard");
-            WebElement select = elementFetch.getWebElement("XPATH", AdminProjectElements.selectAsBuiltText);
-            select.click();
-
-            logger.info("Open Tratte Progetti Admin");
-
-            WebElement open = elementFetch.getWebElement("XPATH", AdminProjectElements.adminProjectsRoutes);
-            open.click();
-
-            // Wait for the new tab to open
-            Thread.sleep(50000);
-
-            // Get the current window handle
-            String parentWindow = driver.getWindowHandle();
-
-            // Store all window handles in a list
-            List<String> windowHandles = new ArrayList<>(driver.getWindowHandles());
-
-            // Switch to the child window (tab)
-            for (String windowHandle : windowHandles) {
-                if (!windowHandle.equals(parentWindow)) {
-                    driver.switchTo().window(windowHandle);
-                    break;
-                }
-            }
-
-            // Perform actions in child window
-            System.out.println("Child Tab Title: " + driver.getTitle());
-            logger.info("Search Project by Id");
-            WebElement search = elementFetch.getWebElement("XPATH", AdminProjectElements.searchFilter);
-            search.click();
-
-            WebElement field = elementFetch.getWebElement("XPATH", AdminProjectElements.searchField);
-            field.click();
-            field.clear();
-            field.sendKeys("1579594004");
-
-            WebElement searchButton = elementFetch.getWebElement("CSS", AdminProjectElements.searchButton);
-            searchButton.click();
-
-            WebElement closeFilter = elementFetch.getWebElement("CSS", AdminProjectElements.closeButton);
-            closeFilter.click();
-
-            logger.info("Click on Project having project id " + 1579594004);
-            WebElement selectProject = elementFetch.getWebElement("XPATH", AdminProjectElements.selectProject1579594004);
-            selectProject.click();
-
-            WebDriverWait wait2 = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(text(), '161070481')]")));
-            logger.info("Open Project having id 161070481");
-            WebElement project161070481 = elementFetch.getWebElement("XPATH", AdminProjectElements.selectProject161070481);
-            project161070481.click();
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'Apri Progetto')]")));
-            WebElement openproject = elementFetch.getWebElement("XPATH", AdminProjectElements.projectOpen);
-            openproject.click();
 
 
-            // Wait for the new sub-child tab to open
-            Thread.sleep(40000);
+        WebElement document = elementFetch.getWebElement("XPATH", AdminProjectElements.documentManagement);
+        document.click();
 
-            // Store all window handles again
-            windowHandles = new ArrayList<>(driver.getWindowHandles());
+        WebElement printmanagement = elementFetch.getWebElement("XPATH", AdminProjectElements.printManagement);
+        printmanagement.click();
 
-            // Switch to the sub-child window (tab)
-            for (String windowHandle : windowHandles) {
-                if (!windowHandle.equals(parentWindow) && !windowHandle.equals(driver.getWindowHandle())) {
-                    driver.switchTo().window(windowHandle);
-                    break;
-                }
-            }
-
-            // Perform actions in the sub-child tab
-            System.out.println("Sub-Child Tab Title: " + driver.getTitle());
-
-            WebElement document = elementFetch.getWebElement("XPATH", AdminProjectElements.documentManagement);
-            document.click();
-
-            WebElement printmanagement = elementFetch.getWebElement("XPATH", AdminProjectElements.printManagement);
-            printmanagement.click();
-
-            WebElement cmt = elementFetch.getWebElement("XPATH", AdminProjectElements.CMT);
-            cmt.click();
-            WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='extract']")));
+        WebElement cmt = elementFetch.getWebElement("XPATH", AdminProjectElements.CMT);
+        cmt.click();
+        WebDriverWait wait1 = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='extract']")));
 
 
-            WebDriverWait wit2 = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wit2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='dojoxFloatingCloseIcon']")));
+        WebDriverWait wit2 = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wit2.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='dojoxFloatingCloseIcon']")));
 
-            WebElement close = elementFetch.getWebElement("XPATH", AdminProjectElements.close);
-            Actions action = new Actions(driver);
-            action.moveToElement(close).click().perform();
+        WebElement close = elementFetch.getWebElement("XPATH", AdminProjectElements.close);
+        Actions action = new Actions(driver);
+        action.moveToElement(close).click().perform();
 
-            WebDriverWait wait3 = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wait3.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Fibre e giunzioni')]")));
+        WebDriverWait wait3 = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait3.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Fibre e giunzioni')]")));
 
-            WebElement fiber = elementFetch.getWebElement("XPATH", AdminProjectElements.fiber);
-            Actions actions = new Actions(driver);
-            actions.moveToElement(fiber).click().perform();
-
-
-            logger.info("click on Gestione Elaborati");
-            WebElement Printmanagement = elementFetch.getWebElement("XPATH", AdminProjectElements.documentManagement);
-            Printmanagement.click();
-
-            logger.info("click on Gestione Stampe AsBuilt");
-            WebElement Built = elementFetch.getWebElement("XPATH", AdminProjectElements.Asbuilt);
-            Built.click();
+        WebElement fiber = elementFetch.getWebElement("XPATH", AdminProjectElements.fiber);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(fiber).click().perform();
 
 
-            logger.info("click on Estrai CMT Progettato + Realizzato");
-            WebElement Cmt = elementFetch.getWebElement("XPATH", AdminProjectElements.CMT);
-            Cmt.click();
+        logger.info("click on Gestione Elaborati");
+        WebElement Printmanagement = elementFetch.getWebElement("XPATH", AdminProjectElements.documentManagement);
+        Printmanagement.click();
 
-            WebDriverWait wt1 = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wt1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='extract']")));
-
-
-            logger.info("click on Extract");
-            WebElement Extract = elementFetch.getWebElement("XPATH", AdminProjectElements.extract);
-            Extract.click();
-
-            WebDriverWait wait4 = new WebDriverWait(driver, Duration.ofSeconds(30));
-            wait4.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='btnSubmit']")));
+        logger.info("click on Gestione Stampe AsBuilt");
+        WebElement Built = elementFetch.getWebElement("XPATH", AdminProjectElements.Asbuilt);
+        Built.click();
 
 
-//          Click on the Invia button to download the file
+        logger.info("click on Estrai CMT Progettato + Realizzato");
+        WebElement Cmt = elementFetch.getWebElement("XPATH", AdminProjectElements.CMT);
+        Cmt.click();
 
-            logger.info("click on Invia to download file");
-            WebElement invia = driver.findElement(By.xpath(AdminProjectElements.invia));
-            invia.click();
-
-
-//          Get the download directory path
-            String downloadDirPath = System.getProperty("user.dir") + File.separator + "CMTFile";
-
-//          Define the file to check for
-            File file = new File(downloadDirPath + File.separator + "Computo_Ripianificato_TEST_SEC.xlsx");
-
-//          Wait for the file to be downloaded
-            int timeout = 1500; // seconds (25 minutes)
-            int pollingInterval = 30000; // 30 seconds wait time to check the file downloaded or not after clicking on the button to download file
-            long startTime = System.currentTimeMillis();
-
-            while (!file.exists() && (System.currentTimeMillis() - startTime) < (timeout * 30000)) {
-                logger.info("Waiting for file to download: " + file.getAbsolutePath());
-                System.out.println("Waiting for file to download: " + file.getAbsolutePath());
-                try {
-                    Thread.sleep(pollingInterval); // Wait for every 30 second before checking file downloaded in the folder
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt(); // Restore the interrupted status
-                    logger.info("Thread was interrupted while waiting for file download");
-                    System.out.println("Thread was interrupted while waiting for file download");
-                }
-            }
+        WebDriverWait wt1 = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wt1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='extract']")));
 
 
-//          Verify the file existence in the folder
-            if (file.exists()) {
-                logger.info("File downloaded successfully: " + file.getAbsolutePath());
-                System.out.println("File downloaded successfully: " + file.getAbsolutePath());
-            } else {
-                logger.info("File not downloaded: " + file.getAbsolutePath());
-                System.out.println("File not downloaded: " + file.getAbsolutePath());
-                Assert.fail("File not downloaded");
-            }
-        } catch (Exception e) {
-            logger.info("An error occurred during file download process");
-            System.out.println("An error occurred during file download process");
+        logger.info("click on Extract");
+        WebElement Extract = elementFetch.getWebElement("XPATH", AdminProjectElements.extract);
+        Extract.click();
+
+        WebDriverWait wait4 = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait4.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='btnSubmit']")));
+
+
+        // Click on the Invia button to download the file
+
+        logger.info("click on Invia to download file");
+        WebElement invia = driver.findElement(By.xpath(AdminProjectElements.invia));
+        invia.click();
+
+
+        // Get the download directory path
+
+        String downloadDirPath = System.getProperty("user.dir") + File.separator + "CMTFile";
+
+
+        // Wait for the file to be downloaded
+        String downloadedFileName = waitForFileToDownload(downloadDirPath);
+
+        if (downloadedFileName != null) {
+            System.out.println("Downloaded file: " + downloadedFileName);
+            logger.info("Downloaded file: " + downloadedFileName);
+
+            // Get the absolute path of the downloaded file
+            File downloadedFile = new File(downloadDirPath + File.separator + downloadedFileName);
+            downloadedFilePath = downloadedFile.getAbsolutePath();
+            System.out.println("Absolute path of the downloaded file: " + downloadedFilePath);
+            logger.info("Absolute path of the downloaded file: " + downloadedFilePath);
+
+        } else {
+            System.out.println("File not downloaded within the expected time.");
         }
+    }
+
+    public static String waitForFileToDownload(String downloadDir) {
+        File dir = new File(downloadDir);
+        int attempts = 0;
+
+        // Wait until a new file is downloaded
+        while (attempts < 1500) { // Wait for up to 30 seconds
+            try {
+                TimeUnit.SECONDS.sleep(30);// Sleep for 30 second
+                System.out.println("waiting for file to be download");
+                logger.info("waiting for file to be download");
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // List all files in the download directory
+            File[] files = dir.listFiles();
+            if (files != null && files.length > 0) {
+                // Sort files by last modified time
+                Arrays.sort(files, Comparator.comparingLong(File::lastModified).reversed());
+                // Return the name of the most recently modified file
+                return files[0].getName();
+            }
+            attempts++;
+        }
+        return null;
+
     }
 
 
@@ -233,25 +164,102 @@ public class DownloadCMTFile {
 
     // Code to move the downloaded CMT file in the Folder
     public static void moveFile() {
-
-        // Specify the source file path and destination directory
-        Path sourceFile = Paths.get("CMTFile/Computo_Ripianificato_TEST_SEC.xlsx");
-        Path destinationFile = Paths.get("OldCMTFor161070481/Computo_Ripianificato_TEST_SEC.xlsx");
+        Path sourceDir = Paths.get("CMTFile");
+        Path targetDir = Paths.get("OldCMTFor161070481");
 
         try {
-            // Move the file
-            Files.move(sourceFile, destinationFile);
+            // Create target directory if it doesn't exist
+            if (Files.notExists(targetDir)) {
+                Files.createDirectories(targetDir);
+            }
 
-            System.out.println("File moved successfully.");
-            logger.info("CMT File from previous Test moved to the folder so that new CMT file will be compared with this Old file");
+            // Move file from source to target directory
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(sourceDir)) {
+                for (Path file : stream) {
+                    Path targetFile = targetDir.resolve(file.getFileName());
+                    Files.move(file, targetFile, StandardCopyOption.REPLACE_EXISTING);
+                    System.out.println("Moved: " + file.getFileName() + " to " + targetFile);
+                    logger.info("Moved: " + file.getFileName() + " to " + targetFile);
+
+                    // Get the absolute path of the file
+                    oldCMTFilePath = targetFile.toAbsolutePath().toString();
+
+                    System.out.println("Absolute path of the file: " + oldCMTFilePath);
+                    logger.info("Absolute path of the file: " + oldCMTFilePath);
+                }
+            }
+
+            // Get the absolute path of the target directory
+//            String oldCMTTargetPath = targetDir.toAbsolutePath().toString();
+//            System.out.println("Files moved to: " + oldCMTTargetPath);
+//            logger.info("Files moved to: " + oldCMTTargetPath);
+
 
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+            logger.warning("Error moving files: ");
+        }
+    }
 
+    public static void compareFiles() {
+        String newfile = downloadedFilePath;
+        String oldfile = oldCMTFilePath;
+        System.out.println("New CMT File Path"+downloadedFilePath);
+        System.out.println("Old CMT File Path"+oldCMTFilePath);
+        try {
+            compareExcelFiles(newfile, oldfile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void compareExcelFiles(String newfile, String oldfile) throws IOException {
+        logger.info("Read Data from the Excel Files");
+        try (FileInputStream newCMTFile1 = new FileInputStream(newfile);
+             FileInputStream oldCMTFile = new FileInputStream(oldfile);
+             Workbook workbook1 = new XSSFWorkbook(newCMTFile1);
+             Workbook workbook2 = new XSSFWorkbook(oldCMTFile)) {
+            Sheet sheet1 = workbook1.getSheetAt(0);
+            Sheet sheet2 = workbook2.getSheetAt(0);
+            logger.info("Compare Data in New and Old CMT file");
+            int rowCount = Math.max(sheet1.getPhysicalNumberOfRows(), sheet2.getPhysicalNumberOfRows());
+            boolean identical = true;
+            logger.info("Compares the number of rows in both sheets");
+            logger.info("Compares the values of cells from both files");
+            for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+                Row row1 = sheet1.getRow(rowIndex);
+                Row row2 = sheet2.getRow(rowIndex);
+                if (row1 == null && row2 == null) {
+                    continue; // Both rows are empty
+                }
+                if (row1 == null || row2 == null) {
+                    identical = false;
+                    System.out.println("Difference found at row " + (rowIndex + 1) + ": One of the rows is empty");
+                    logger.info("Difference found at row " + (rowIndex + 1) + ": One of the rows is empty");
+                    continue;
+                }
+                int cellCount = Math.max(row1.getPhysicalNumberOfCells(), row2.getPhysicalNumberOfCells());
+                for (int cellIndex = 0; cellIndex < cellCount; cellIndex++) {
+                    Cell cell1 = row1.getCell(cellIndex);
+                    Cell cell2 = row2.getCell(cellIndex);
+                    String value1 = (cell1 == null) ? "" : cell1.toString();
+                    String value2 = (cell2 == null) ? "" : cell2.toString();
+                    if (!value1.equals(value2)) {
+                        identical = false;
+                        System.out.println("Difference found at row " + (rowIndex + 1) + ", column " + (cellIndex + 1) + ": " +
+                                "newfile has '" + value1 + "'; oldfile has '" + value2 + "'");
+                        logger.info("Difference found at row " + (rowIndex + 1) + ", column " + (cellIndex + 1) + ": " +
+                                "newfile has '" + value1 + "'; oldfile has '" + value2 + "'");
+                    }
+                }
+            }
+            if (identical) {
+                System.out.println("Data in Both The Files are Same");
+                logger.info("Data in Both The Files are Same");
+            }
         }
     }
 }
+
 
 
 
