@@ -6,7 +6,6 @@
     </listeners>
     <test verbose="2" preserve-order="true" name="chromeTest">
         <parameter name="browser" value="chrome"></parameter>
-        <parameter name="headless" value="false"></parameter>
         <classes>
             LogIn Test Class
             <class name="testCases.LogIn">
