@@ -7,7 +7,6 @@ import pageEvents.adminPageEvents.DownloadCMTFile;
 
 import java.io.IOException;
 
-import static pageObjects.adminProject.AdminProjectElements.adminProjectsRoutes;
 
 public class DataCompare extends LogIn {
 
@@ -16,8 +15,8 @@ public class DataCompare extends LogIn {
     // Test case for Downloading CMT file and compare it with old file
     @Test(description = "Verify user able to download and compare CMT file ")
     public void downloadAndCompareDataFile() throws IOException, InterruptedException {
-        loginPage.login();
         DownloadCMTFile.cleanoldCMTFolder();
+        loginPage.login();
         DownloadCMTFile.moveFile();
         adminProjectsRoutes.openAdminProject();
         DownloadCMTFile.CMTFile();

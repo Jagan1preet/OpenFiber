@@ -157,6 +157,7 @@ public class DownloadCMTFile {
     public static void cleanoldCMTFolder() throws IOException {
         String OldCMT = System.getProperty("user.dir") + File.separator + "OldCMTFor161070481";
         File directory = new File(OldCMT);
+        System.out.println("Delete the old CMT file from the folder so that CMT File from previous Test will be moved to the folder for comparision with new file");
         logger.info("Delete the old CMT file from the folder so that CMT File from previous Test will be moved to the folder for comparision with new file");
         FileUtils.cleanDirectory(directory);
     }
@@ -212,6 +213,8 @@ public class DownloadCMTFile {
         }
     }
 
+
+
     public static void compareExcelFiles(String newfile, String oldfile) throws IOException {
         logger.info("Read Data from the Excel Files");
         try (FileInputStream newCMTFile1 = new FileInputStream(newfile);
@@ -256,6 +259,7 @@ public class DownloadCMTFile {
                 System.out.println("Data in Both The Files are Same");
                 logger.info("Data in Both The Files are Same");
             }
+
         }
     }
 }
