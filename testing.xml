@@ -7,17 +7,11 @@
     <test verbose="2" preserve-order="true" name="chromeTest">
         <parameter name="browser" value="chrome" />
         <classes>
-<!--            <class name="testCases.LogIn">-->
-<!--                <methods>-->
-<!--                    <include name="verifyLoginPage" />-->
-<!--                    <include name="verifyLogin" />-->
-<!--                </methods>-->
-<!--            </class>-->
-<!--            <class name="testCases.AdminProject">-->
-<!--                <methods>-->
-<!--                    <include name="openAdminProject" />-->
-<!--                </methods>-->
-<!--            </class>-->
+            <class name="testCases.AdminProject">
+                <methods>
+                    <include name="openAdminProject" />
+                </methods>
+            </class>
             <class name="testCases.DataCompare">
                 <methods>
                     <include name="downloadAndCompareDataFile" />
