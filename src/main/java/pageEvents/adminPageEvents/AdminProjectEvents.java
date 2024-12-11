@@ -1,21 +1,11 @@
 package pageEvents.adminPageEvents;
 
-import base.BaseTest;
 import lombok.Getter;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.junit.Assert;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WindowType;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.chromium.ChromiumOptions;
-import org.openqa.selenium.edge.EdgeOptions;
+
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.yaml.snakeyaml.Yaml;
@@ -23,10 +13,9 @@ import pageObjects.adminProject.AdminProjectElements;
 import utils.ElementFetch;
 
 import java.io.*;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
+
 
 import static base.BaseTest.driver;
 import static base.BaseTest.logger;

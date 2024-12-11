@@ -202,12 +202,12 @@ public class DownloadCMTFile {
     }
 
     public static void compareFiles() {
-        String newfile = downloadedFilePath;
-        String oldfile = oldCMTFilePath;
+        String newcmtfile = downloadedFilePath;
+        String oldcmtfile = oldCMTFilePath;
         System.out.println("New CMT File Path"+downloadedFilePath);
         System.out.println("Old CMT File Path"+oldCMTFilePath);
         try {
-            compareExcelFiles(newfile, oldfile);
+            compareExcelFiles(newcmtfile, oldcmtfile);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -215,10 +215,10 @@ public class DownloadCMTFile {
 
 
 
-    public static void compareExcelFiles(String newfile, String oldfile) throws IOException {
+    public static void compareExcelFiles(String newcmtfile, String oldcmtfile) throws IOException {
         logger.info("Read Data from the Excel Files");
-        try (FileInputStream newCMTFile1 = new FileInputStream(newfile);
-             FileInputStream oldCMTFile = new FileInputStream(oldfile);
+        try (FileInputStream newCMTFile1 = new FileInputStream(newcmtfile);
+             FileInputStream oldCMTFile = new FileInputStream(oldcmtfile);
              Workbook workbook1 = new XSSFWorkbook(newCMTFile1);
              Workbook workbook2 = new XSSFWorkbook(oldCMTFile)) {
             Sheet sheet1 = workbook1.getSheetAt(0);

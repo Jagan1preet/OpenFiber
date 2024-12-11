@@ -1,19 +1,19 @@
 package testCases;
 
+import base.BaseTest;
 import org.testng.annotations.Test;
 import pageEvents.adminPageEvents.AdminProjectEvents;
 
-import java.io.IOException;
 
-public class AdminProject extends LogIn {
-
+public class AdminProject extends BaseTest {
 
     AdminProjectEvents adminProjectsRoutes = new AdminProjectEvents();
 
     //  Test case to navigate to Admin Project Routes Page
     @Test(description = "Verify user able to Open Project")
     public void openAdminProject() throws InterruptedException {
-        loginPage.login();
+        verifyIfLoginPageIsLoaded();
+        login();
         adminProjectsRoutes.openAdminProject();
     }
 }
