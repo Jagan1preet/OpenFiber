@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <listeners>
+        <listener class-name="utils.SuitListener"></listener>
+    </listeners>
+    <test verbose="2" preserve-order="true" name="chromeTest">
+        <parameter name="browser" value="chrome"></parameter>
+        <parameter name="headless" value="false"></parameter>
+        <classes>
+
+<!--            Test Class for LogIn-->
+            <class name="testCases.LogIn">
+                <methods>
+                    <include name="verifyLogInPadeLoad" />
+                    <include name="logIn" />
+                </methods>
+            </class>
+
+<!--            Test Class to search and open project-->
+            <class name="testCases.AdminProject">
+                <methods>
+                    <include name="openAdminProject" />
+                </methods>
+            </class>
+
+<!--            Test Class to download CMT file and compare data between two files (New and Old File)-->
+            <class name="testCases.DataCompare">
+                <methods>
+                    <include name="downloadAndCompareDataFile" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
