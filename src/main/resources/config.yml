@@ -1,9 +1,0 @@
-environments:
- testing:
-  url: "${URL}"
-
-credentials:
- username: "${USERNAME}"
- password: "${PASSWORD}"
- search_project: "${SEARCHPROJECT}"
- open_project: "${OPENPROJECT}"
